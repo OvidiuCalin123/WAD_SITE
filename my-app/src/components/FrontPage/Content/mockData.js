@@ -1,0 +1,80 @@
+export const data = [
+  {
+    company: "Company A",
+    salary: 75000,
+    position: "Software Engineer",
+    location: "New York",
+  },
+  {
+    company: "Company B",
+    salary: null,
+    position: "Data Analyst",
+    location: "San Francisco",
+  },
+  {
+    company: "Company C",
+    salary: 90000,
+    position: "UX Designer",
+    location: "Los Angeles",
+  },
+  {
+    company: "Company D",
+    salary: 80000,
+    position: "Product Manager",
+    location: "Seattle",
+  },
+  {
+    company: "Company E",
+    salary: 65000,
+    position: "Front-end Developer",
+    location: "Chicago",
+  },
+  {
+    company: "Company F",
+    salary: null,
+    position: "Marketing Coordinator",
+    location: "Miami",
+  },
+  {
+    company: "Company G",
+    salary: 85000,
+    position: "Data Scientist",
+    location: "Boston",
+  },
+  {
+    company: "Company H",
+    salary: 70000,
+    position: "UI/UX Designer",
+    location: "Austin",
+  },
+  {
+    company: "Company I",
+    salary: 95000,
+    position: "DevOps Engineer",
+    location: "Denver",
+  },
+  {
+    company: "Company J",
+    salary: null,
+    position: "Customer Support Specialist",
+    location: "Dallas",
+  },
+  {
+    company: "Company H",
+    salary: 70000,
+    position: "UI/UX Designer",
+    location: "Austin",
+  },
+  {
+    company: "Company I",
+    salary: 95000,
+    position: "DevOps Engineer",
+    location: "Denver",
+  },
+  {
+    company: "Company J",
+    salary: null,
+    position: "Customer Support Specialist",
+    location: "Dallas",
+  },
+];
