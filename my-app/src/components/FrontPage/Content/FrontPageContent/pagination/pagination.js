@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { data } from "../../mockData";
 import SearchBar from "../SearchBar/searchBar";
 import { PositionDetailModal } from "../PositionDetailModal/positionDetailModal";
+import { ButtonStyle } from "./stylesPagination";
 
 const itemsPerPage = 10;
 
@@ -9,6 +10,7 @@ const Pagination = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState(data);
   const [showPositionDetailModal, setShowPositionDetailModal] = useState(false);
+  const [modalInfo, setModalInfo] = useState();
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -50,27 +52,42 @@ const Pagination = () => {
 
   return (
     <>
-      <PositionDetailModal />
-
+      {showPositionDetailModal && (
+        <PositionDetailModal
+          setShowPositionDetailModal={setShowPositionDetailModal}
+          modalInfo={modalInfo}
+        />
+      )}
       <SearchBar onSearch={handleSearch} />
       <div>
         <ol className="list-group list-group-numbered">
           {currentItems.map((item, index) => (
-            <li
-              key={index}
-              className="list-group-item d-flex justify-content-between align-items-start"
+            <ButtonStyle
+              onClick={() => {
+                setModalInfo({
+                  CompanyName: item.company,
+                  JobTitle: item.position,
+                  location: item.location,
+                });
+                setShowPositionDetailModal(true);
+              }}
             >
-              <div
-                className="ms-2 me-auto mb-1"
-                style={{ paddingBottom: "1px" }}
+              <li
+                key={index}
+                className="list-group-item d-flex justify-content-between align-items-start"
               >
-                <div className="fw-bold">{item.company}</div>
-                {item.position}
-              </div>
-              <span className="badge bg-primary rounded-pill">
-                {item.location}
-              </span>
-            </li>
+                <div
+                  className="ms-2 me-auto mb-1"
+                  style={{ paddingBottom: "1px" }}
+                >
+                  <div className="fw-bold">{item.company}</div>
+                  {item.position}
+                </div>
+                <span className="badge bg-primary rounded-pill">
+                  {item.location}
+                </span>
+              </li>
+            </ButtonStyle>
           ))}
         </ol>
         <nav aria-label="...">

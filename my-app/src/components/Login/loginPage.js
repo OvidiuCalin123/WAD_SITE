@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StyledLoginPage } from "./styleLoginCard";
 
@@ -5,51 +6,99 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const handleClick = () => navigate("/welcome");
 
+  // Use state to manage input validation
+  const [emailValid, setEmailValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
+
+  const fieldValidationRegex = {
+    password: /^[-\d\w@$]{8,20}$/i,
+    email: /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
+  };
+
+  const validate = (field, regex) => {
+    return regex.test(field);
+  };
+
+  const handleEmailChange = (e) => {
+    const isValid = validate(e.target.value, fieldValidationRegex.email);
+    setEmailValid(isValid);
+  };
+
+  const handlePasswordChange = (e) => {
+    const isValid = validate(e.target.value, fieldValidationRegex.password);
+    setPasswordValid(isValid);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (emailValid && passwordValid) {
+      handleClick();
+    } else {
+      console.log("Form submission failed. Please check your input.");
+    }
+  };
+
   return (
     <StyledLoginPage>
-      <div class="title" style={{ marginBottom: "2rem" }}>
+      <div className="title" style={{ marginBottom: "2rem" }}>
         <h1>Login</h1>
       </div>
-      <div class="card" style={{ width: "50vh", height: "70vh" }}>
-        <div class="card-body p-5">
-          <form>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">
-                Email address
+      <div className="card" style={{ width: "50vh", height: "70vh" }}>
+        <div className="card-body p-5">
+          <form onSubmit={handleSubmit}>
+            <div className="col-md-4 pb-4">
+              <label htmlFor="email" className="form-label">
+                Email
               </label>
               <input
-                type="email"
-                class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
+                type="text"
+                className={`form-control ${emailValid ? "" : "is-invalid"}`}
+                id="email"
+                style={{ width: "40vh" }}
+                onChange={handleEmailChange}
+                required
               />
-              <div id="emailHelp" class="form-text">
-                We'll never share your email with anyone else.
-              </div>
+              {!emailValid && (
+                <div className="invalid-feedback" style={{ width: "30vh" }}>
+                  Invalid email address.
+                </div>
+              )}
             </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">
+            <div className="col-md-4 pb-4">
+              <label htmlFor="password" className="form-label">
                 Password
               </label>
               <input
                 type="password"
-                class="form-control"
-                id="exampleInputPassword1"
+                className={`form-control ${passwordValid ? "" : "is-invalid"}`}
+                id="password"
+                style={{ width: "40vh" }}
+                onChange={handlePasswordChange}
+                required
               />
+              {!passwordValid && (
+                <div className="invalid-feedback" style={{ width: "30vh" }}>
+                  Password must be 8-20 characters and can contain " $@- "
+                  special characters.
+                </div>
+              )}
             </div>
-            <div class="mb-3 form-check">
+            <div className="mb-3 form-check pb-5">
               <input
                 type="checkbox"
-                class="form-check-input"
+                className="form-check-input"
                 id="exampleCheck1"
               />
-              <label class="form-check-label" for="exampleCheck1">
+              <label className="form-check-label" htmlFor="exampleCheck1">
                 Remember password
               </label>
             </div>
-            <button type="submit" class="btn btn-primary" onClick={handleClick}>
-              Submit
-            </button>
+            <div className="col-12">
+              <button className="btn btn-primary" type="submit">
+                Log in
+              </button>
+            </div>
           </form>
         </div>
       </div>

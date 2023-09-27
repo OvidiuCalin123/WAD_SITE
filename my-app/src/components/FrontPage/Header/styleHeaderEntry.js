@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const HeaderBackground = styled.div`
   display: flex;
-  background-color: #f0f0fc;
+  background-color: #f4f4f4;
   position: relative;
   height: 5rem;
   align-items: center;

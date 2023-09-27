@@ -10,9 +10,9 @@ const SearchBar = ({ data, onSearch }) => {
   };
 
   return (
-    <nav className="navbar bg-body-tertiary">
-      <div className="container-fluid">
-        <form className="d-flex" role="search">
+    <nav className="navbar bg-body-tertiary" style={{ width: "50vh" }}>
+      <div className="container-fluid" style={{ width: "50vh" }}>
+        <form className="d-flex" role="search" style={{ width: "50vh" }}>
           <input
             className="form-control me-2"
             type="search"
