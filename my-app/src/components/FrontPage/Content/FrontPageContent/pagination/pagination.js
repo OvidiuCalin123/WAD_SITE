@@ -3,10 +3,12 @@ import { data } from "../../mockData";
 import SearchBar from "../SearchBar/searchBar";
 import { PositionDetailModal } from "../PositionDetailModal/positionDetailModal";
 import { ButtonStyle } from "./stylesPagination";
+import { FilterPanel } from "../Filter/filterPanel";
+import { ContentBackground } from "./styleContentEntry";
 
-const itemsPerPage = 10;
+const itemsPerPage = 7;
 
-const Pagination = () => {
+export const Pagination = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState(data);
   const [showPositionDetailModal, setShowPositionDetailModal] = useState(false);
@@ -51,73 +53,88 @@ const Pagination = () => {
   };
 
   return (
-    <>
-      {showPositionDetailModal && (
-        <PositionDetailModal
-          setShowPositionDetailModal={setShowPositionDetailModal}
-          modalInfo={modalInfo}
-        />
-      )}
-      <SearchBar onSearch={handleSearch} />
-      <div>
-        <ol className="list-group list-group-numbered">
-          {currentItems.map((item, index) => (
-            <ButtonStyle
-              onClick={() => {
-                setModalInfo({
-                  CompanyName: item.company,
-                  JobTitle: item.position,
-                  location: item.location,
-                });
-                setShowPositionDetailModal(true);
-              }}
-            >
-              <li
-                key={index}
-                className="list-group-item d-flex justify-content-between align-items-start"
+    <div style={{ display: "flex" }}>
+      <FilterPanel filteredData={filteredData} />
+      <ContentBackground>
+        {showPositionDetailModal && (
+          <PositionDetailModal
+            setShowPositionDetailModal={setShowPositionDetailModal}
+            modalInfo={modalInfo}
+          />
+        )}
+        <SearchBar onSearch={handleSearch} />
+        <div>
+          <ol className="list-group list-group-numbered">
+            {currentItems.map((item, index) => (
+              <ButtonStyle
+                onClick={() => {
+                  setModalInfo({
+                    CompanyName: item.company,
+                    JobTitle: item.position,
+                    location: item.location,
+                  });
+                  setShowPositionDetailModal(true);
+                }}
               >
-                <div
-                  className="ms-2 me-auto mb-1"
-                  style={{ paddingBottom: "1px" }}
+                <li
+                  key={index}
+                  className="list-group-item d-flex justify-content-between align-items-start"
                 >
-                  <div className="fw-bold">{item.company}</div>
-                  {item.position}
-                </div>
-                <span className="badge bg-primary rounded-pill">
-                  {item.location}
-                </span>
+                  <div
+                    className="ms-2 me-auto mb-1"
+                    style={{ paddingBottom: "1px" }}
+                  >
+                    <div className="fw-bold">{item.company}</div>
+                    {item.position}
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div>
+                      <h5>{item.salary === null ? "-" : item.salary + " $"}</h5>
+                    </div>
+                    <div>
+                      <div>
+                        <span className="badge bg-primary rounded-pill">
+                          {item.location}
+                        </span>
+                      </div>
+                      <span className="badge bg-primary rounded-pill ">
+                        {item.jobType}
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              </ButtonStyle>
+            ))}
+          </ol>
+          <nav aria-label="...">
+            <ul className="pagination">
+              <li
+                className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => handleClick(currentPage - 1)}
+                >
+                  Previous
+                </button>
               </li>
-            </ButtonStyle>
-          ))}
-        </ol>
-        <nav aria-label="...">
-          <ul className="pagination">
-            <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-              <button
-                className="page-link"
-                onClick={() => handleClick(currentPage - 1)}
+              {renderPaginationButtons()}
+              <li
+                className={`page-item ${
+                  currentPage === totalPages ? "disabled" : ""
+                }`}
               >
-                Previous
-              </button>
-            </li>
-            {renderPaginationButtons()}
-            <li
-              className={`page-item ${
-                currentPage === totalPages ? "disabled" : ""
-              }`}
-            >
-              <button
-                className="page-link"
-                onClick={() => handleClick(currentPage + 1)}
-              >
-                Next
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </>
+                <button
+                  className="page-link"
+                  onClick={() => handleClick(currentPage + 1)}
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </ContentBackground>
+    </div>
   );
 };
-
-export default Pagination;

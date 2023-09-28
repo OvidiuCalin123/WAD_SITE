@@ -1,0 +1,35 @@
+.modal-filter {
+  background: white;
+  padding: 45px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  position: relative;
+  height: 65vh;
+  width: 50vh;
+  overflow-y: auto;
+  margin-top: 4rem;
+  margin-left: 2rem;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 20px;
+}
+
+.job-description {
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+.job-type {
+  padding-top: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

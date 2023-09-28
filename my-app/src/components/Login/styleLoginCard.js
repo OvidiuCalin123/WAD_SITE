@@ -11,3 +11,11 @@ export const StyledLoginPage = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
+
+export const LoginCardLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: "50vh";
+  height: "70vh";
+`;

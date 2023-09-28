@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { StyledLoginPage } from "./styleLoginCard";
+import { StyledLoginPage, LoginCardLayout } from "./styleLoginCard";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -41,11 +41,10 @@ export const LoginPage = () => {
 
   return (
     <StyledLoginPage>
-      <div className="title" style={{ marginBottom: "2rem" }}>
-        <h1>Login</h1>
-      </div>
-      <div className="card" style={{ width: "50vh", height: "70vh" }}>
-        <div className="card-body p-5">
+      <div className="title" style={{ marginBottom: "2rem" }}></div>
+      <div className="card">
+        <LoginCardLayout className="card-body p-5" style={{ height: "60vh" }}>
+          <h1 style={{ paddingBottom: "2rem" }}>Login</h1>
           <form onSubmit={handleSubmit}>
             <div className="col-md-4 pb-4">
               <label htmlFor="email" className="form-label">
@@ -100,7 +99,7 @@ export const LoginPage = () => {
               </button>
             </div>
           </form>
-        </div>
+        </LoginCardLayout>
       </div>
     </StyledLoginPage>
   );
