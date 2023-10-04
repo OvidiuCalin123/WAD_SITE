@@ -1,6 +1,6 @@
 import { HeaderBackground, TitleContainer } from "./styleHeaderEntry";
 
-export const FrontPageHeaderEntry = () => {
+export const FrontPageHeaderEntry = ({ checkIsAdmin }) => {
   const headerStyle = {
     color: "wheat",
     paddingRight: "2rem",
@@ -11,6 +11,7 @@ export const FrontPageHeaderEntry = () => {
     <HeaderBackground>
       <TitleContainer>
         <h1 style={headerStyle}>ByteHire</h1>
+        {checkIsAdmin && <h3>I AM AN ADMIN</h3>}
       </TitleContainer>
       <div style={{ width: "1px", height: "20px", background: "wheat" }}></div>
       <a href="/welcome" style={{ textDecoration: "none" }}>

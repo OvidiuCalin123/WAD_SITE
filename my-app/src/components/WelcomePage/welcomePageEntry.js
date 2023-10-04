@@ -3,10 +3,10 @@ import { CenterContent } from "./WelcomePageContent/styleWelcomePageEntry";
 import "./welcomePageStyles.css";
 import { WelcomeCard } from "./WelcomePageContent/WelcomeCard";
 
-export const WelcomePageEntry = () => {
+export const WelcomePageEntry = ({ checkIsAdmin }) => {
   return (
     <>
-      <FrontPageHeaderEntry />
+      <FrontPageHeaderEntry checkIsAdmin={checkIsAdmin} />
       <CenterContent>
         <WelcomeCard />
       </CenterContent>

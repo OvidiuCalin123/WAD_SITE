@@ -1,11 +1,11 @@
 import { FrontPageContentEntry } from "./Content/frontPageContentEntry";
 import { FrontPageHeaderEntry } from "./Header/frontPageHeaderEntry";
 
-export const FrontPageEntry = () => {
+export const FrontPageEntry = ({ checkIsAdmin }) => {
   return (
     <>
-      <FrontPageHeaderEntry />
-      <FrontPageContentEntry />
+      <FrontPageHeaderEntry checkIsAdmin={checkIsAdmin} />
+      <FrontPageContentEntry checkIsAdmin={checkIsAdmin} />
     </>
   );
 };

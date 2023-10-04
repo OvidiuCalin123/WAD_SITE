@@ -4,9 +4,9 @@ import { StyledLoginPage, LoginCardLayout } from "./styleLoginCard";
 
 import "./loginPageStylesCSS.css";
 
-export const LoginPage = () => {
+export const LoginPage = ({ setIsAdminOrNotCallback }) => {
   const navigate = useNavigate();
-  const handleClick = () => navigate("/welcome");
+  const handleClick = () => navigate(`/welcome`);
 
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
@@ -62,7 +62,7 @@ export const LoginPage = () => {
       )
         .then((response) => {
           if (response.status === 200) {
-            handleClick();
+            return response.json();
           } else if (response.status === 404) {
             setAccountNotFoundMessage(
               "Account not found or credentials are invalid."
@@ -75,6 +75,10 @@ export const LoginPage = () => {
             setAccountNotFoundMessage("Unexpected error.");
             throw new Error(`Unexpected status code: ${response.status}`);
           }
+        })
+        .then((data) => {
+          setIsAdminOrNotCallback(data);
+          handleClick();
         })
         .catch((error) => {
           console.error("Fetch error:", error.message);

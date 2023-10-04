@@ -1,10 +1,10 @@
 import { Pagination } from "./FrontPageContent/Pagination/pagination";
 
-export const FrontPageContentEntry = () => {
+export const FrontPageContentEntry = ({ checkIsAdmin }) => {
   return (
     <>
       <div>
-        <Pagination />
+        <Pagination checkIsAdmin={checkIsAdmin} />
       </div>
     </>
   );

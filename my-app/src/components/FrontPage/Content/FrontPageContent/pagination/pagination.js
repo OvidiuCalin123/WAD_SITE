@@ -8,7 +8,7 @@ import { ContentBackground } from "./styleContentEntry";
 
 const itemsPerPage = 7;
 
-export const Pagination = () => {
+export const Pagination = ({ checkIsAdmin }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState(data);
   const [sortedData, setSortedData] = useState([]);
@@ -82,6 +82,7 @@ export const Pagination = () => {
         <div>
           <div>
             <SearchBar onSearch={handleSearch} />
+            {checkIsAdmin && <button>EDIT</button>}
             <ol className="list-group list-group-numbered">
               {currentItems.map((item, index) => (
                 <ButtonStyle
