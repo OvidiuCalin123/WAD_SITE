@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { data } from "../../mockData";
 import SearchBar from "../SearchBar/searchBar";
 import { PositionDetailModal } from "../PositionDetailModal/positionDetailModal";
@@ -11,6 +11,7 @@ const itemsPerPage = 7;
 export const Pagination = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState(data);
+  const [sortedData, setSortedData] = useState([]);
   const [showPositionDetailModal, setShowPositionDetailModal] = useState(false);
   const [modalInfo, setModalInfo] = useState();
 
@@ -24,6 +25,14 @@ export const Pagination = () => {
     setCurrentPage(pageNumber);
   };
 
+  useEffect(() => {
+    if (sortedData.length > 0) {
+      setFilteredData(sortedData);
+    } else {
+      setFilteredData(data);
+    }
+  }, [sortedData]);
+
   const handleSearch = (searchQuery) => {
     const lowerCaseQuery = searchQuery.toLowerCase();
     const filteredItems = data.filter(
@@ -31,7 +40,9 @@ export const Pagination = () => {
         item.company.toLowerCase().startsWith(lowerCaseQuery) ||
         item.position.toLowerCase().startsWith(lowerCaseQuery)
     );
+
     setFilteredData(filteredItems);
+
     setCurrentPage(1);
   };
 
@@ -54,7 +65,12 @@ export const Pagination = () => {
 
   return (
     <div style={{ display: "flex" }}>
-      <FilterPanel filteredData={filteredData} />
+      <FilterPanel
+        filteredData={filteredData}
+        sortedData={sortedData}
+        setFilteredData={setFilteredData}
+        setSortedData={setSortedData}
+      />
       <ContentBackground>
         {showPositionDetailModal && (
           <PositionDetailModal
@@ -62,50 +78,57 @@ export const Pagination = () => {
             modalInfo={modalInfo}
           />
         )}
-        <SearchBar onSearch={handleSearch} />
+
         <div>
-          <ol className="list-group list-group-numbered">
-            {currentItems.map((item, index) => (
-              <ButtonStyle
-                onClick={() => {
-                  setModalInfo({
-                    CompanyName: item.company,
-                    JobTitle: item.position,
-                    location: item.location,
-                  });
-                  setShowPositionDetailModal(true);
-                }}
-              >
-                <li
-                  key={index}
-                  className="list-group-item d-flex justify-content-between align-items-start"
+          <div>
+            <SearchBar onSearch={handleSearch} />
+            <ol className="list-group list-group-numbered">
+              {currentItems.map((item, index) => (
+                <ButtonStyle
+                  onClick={() => {
+                    setModalInfo({
+                      CompanyName: item.company,
+                      JobTitle: item.position,
+                      location: item.location,
+                    });
+                    setShowPositionDetailModal(true);
+                  }}
                 >
-                  <div
-                    className="ms-2 me-auto mb-1"
-                    style={{ paddingBottom: "1px" }}
+                  <li
+                    key={index}
+                    className="list-group-item d-flex justify-content-between align-items-start"
                   >
-                    <div className="fw-bold">{item.company}</div>
-                    {item.position}
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <div>
-                      <h5>{item.salary === null ? "-" : item.salary + " $"}</h5>
+                    <div
+                      className="ms-2 me-auto mb-1"
+                      style={{ paddingBottom: "1px" }}
+                    >
+                      <div className="fw-bold">{item.company}</div>
+                      {item.position}
                     </div>
-                    <div>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
                       <div>
-                        <span className="badge bg-primary rounded-pill">
-                          {item.location}
+                        <h5>
+                          {item.salary === null ? "-" : item.salary + " $"}
+                        </h5>
+                      </div>
+                      <div>
+                        <div>
+                          <span className="badge bg-primary rounded-pill">
+                            {item.location}
+                          </span>
+                        </div>
+                        <span className="badge bg-primary rounded-pill ">
+                          {item.jobType}
                         </span>
                       </div>
-                      <span className="badge bg-primary rounded-pill ">
-                        {item.jobType}
-                      </span>
                     </div>
-                  </div>
-                </li>
-              </ButtonStyle>
-            ))}
-          </ol>
+                  </li>
+                </ButtonStyle>
+              ))}
+            </ol>
+          </div>
+        </div>
+        <div style={{ transform: "translate(0,0.82rem)" }}>
           <nav aria-label="...">
             <ul className="pagination">
               <li

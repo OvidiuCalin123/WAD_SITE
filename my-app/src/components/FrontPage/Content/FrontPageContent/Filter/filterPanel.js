@@ -1,6 +1,27 @@
 import "./stylesd.css";
 
-export const FilterPanel = ({ filteredData }) => {
+import { React } from "react";
+
+export const FilterPanel = ({
+  sortedData,
+  setSortedData,
+  filteredData,
+  setFilteredData,
+}) => {
+  const handleRadioChange = (event) => {
+    // check on or off
+
+    console.log(filteredData);
+
+    const sortedFilteredData = filteredData.filter(
+      (data) => data.jobType === event.target.defaultValue
+    );
+
+    console.log(sortedFilteredData);
+
+    setSortedData(sortedFilteredData);
+  };
+
   return (
     <div className="modal-filter">
       <h2>Filter Options</h2>
@@ -17,6 +38,8 @@ export const FilterPanel = ({ filteredData }) => {
             name="btnradio"
             id="btnradio1"
             autocomplete="off"
+            value="Remote"
+            onChange={handleRadioChange} // Add onChange handler
           />
           <label class="btn btn-outline-primary" for="btnradio1">
             Remote
@@ -28,6 +51,8 @@ export const FilterPanel = ({ filteredData }) => {
             name="btnradio"
             id="btnradio2"
             autocomplete="off"
+            value="On-site"
+            onChange={handleRadioChange} // Add onChange handler
           />
           <label class="btn btn-outline-primary" for="btnradio2">
             On-Site
@@ -39,6 +64,8 @@ export const FilterPanel = ({ filteredData }) => {
             name="btnradio"
             id="btnradio3"
             autocomplete="off"
+            value="Hybrid"
+            onChange={handleRadioChange} // Add onChange handler
           />
           <label class="btn btn-outline-primary" for="btnradio3">
             Hybrid

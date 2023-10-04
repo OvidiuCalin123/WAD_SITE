@@ -13,4 +13,7 @@ export const ContentBackground = styled.div`
   width: 60%;
   margin-left: 2rem;
   margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;

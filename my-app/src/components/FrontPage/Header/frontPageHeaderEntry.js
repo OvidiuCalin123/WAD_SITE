@@ -13,9 +13,13 @@ export const FrontPageHeaderEntry = () => {
         <h1 style={headerStyle}>ByteHire</h1>
       </TitleContainer>
       <div style={{ width: "1px", height: "20px", background: "wheat" }}></div>
-      <h3 style={headerStyle}>Home</h3>
+      <a href="/welcome" style={{ textDecoration: "none" }}>
+        <h4 style={headerStyle}>Home</h4>
+      </a>
       <div style={{ width: "1px", height: "20px", background: "wheat" }}></div>
-      <h3 style={headerStyle}>Available Jobs</h3>
+      <a href="/job-postings" style={{ textDecoration: "none" }}>
+        <h4 style={headerStyle}>Available Jobs</h4>
+      </a>
     </HeaderBackground>
   );
 };
