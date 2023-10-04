@@ -18,7 +18,7 @@ export const LoginPage = () => {
 
   const fieldValidationRegex = {
     password: /^[-\d\w@$]{5,20}$/i,
-    email: /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
+    email: /^([a-zA-Z\d\.-]+)@([a-zA-Z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
   };
 
   const validate = (field, regex) => {
