@@ -6,14 +6,19 @@ import { ButtonStyle } from "./stylesPagination";
 import { FilterPanel } from "../Filter/filterPanel";
 import { ContentBackground } from "./styleContentEntry";
 
+import EditIcon from "../../../../../icons/edit.svg";
+import FilePlusIcon from "../../../../../icons/file-plus.svg";
+import DeleteIcon from "../../../../../icons/trash-2.svg";
+
 const itemsPerPage = 7;
 
-export const Pagination = ({ checkIsAdmin }) => {
+export const Pagination = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState(data);
   const [sortedData, setSortedData] = useState([]);
   const [showPositionDetailModal, setShowPositionDetailModal] = useState(false);
   const [modalInfo, setModalInfo] = useState();
+  const [checkIsAdmin, setCheckIsAdmin] = useState(false);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -63,6 +68,35 @@ export const Pagination = ({ checkIsAdmin }) => {
     return buttons;
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+
+    fetch(`https://localhost:7171/api/CheckUserIfAdmin`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      method: "GET",
+      mode: "cors",
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else if (response.status === 404) {
+          throw new Error("Resource not found");
+        } else if (response.status === 500) {
+          throw new Error("Internal server error");
+        } else {
+          throw new Error(`Unexpected status code: ${response.status}`);
+        }
+      })
+      .then((isAdmin) => {
+        setCheckIsAdmin(isAdmin);
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error.message);
+      });
+  }, []);
+
   return (
     <div style={{ display: "flex" }}>
       <FilterPanel
@@ -81,8 +115,16 @@ export const Pagination = ({ checkIsAdmin }) => {
 
         <div>
           <div>
-            <SearchBar onSearch={handleSearch} />
-            {checkIsAdmin && <button>EDIT</button>}
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <SearchBar onSearch={handleSearch} />
+              {checkIsAdmin && (
+                <div style={{ paddingLeft: "3rem" }}>
+                  <button class="btn btn-info" type="button">
+                    <img src={FilePlusIcon} />
+                  </button>
+                </div>
+              )}
+            </div>
             <ol className="list-group list-group-numbered">
               {currentItems.map((item, index) => (
                 <ButtonStyle
@@ -106,13 +148,36 @@ export const Pagination = ({ checkIsAdmin }) => {
                       <div className="fw-bold">{item.company}</div>
                       {item.position}
                     </div>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      {checkIsAdmin && (
+                        <div style={{ paddingRight: "5rem", display: "flex" }}>
+                          <div style={{ paddingRight: "2rem" }}>
+                            <button
+                              class="btn"
+                              type="button"
+                              style={{ backgroundColor: "#fff9c0" }}
+                            >
+                              <img src={EditIcon} />
+                            </button>
+                          </div>
+                          <div>
+                            <button
+                              class="btn"
+                              type="button"
+                              style={{ backgroundColor: "#ffa9a9" }}
+                            >
+                              <img src={DeleteIcon} />
+                            </button>
+                          </div>
+                        </div>
+                      )}
                       <div>
-                        <h5>
-                          {item.salary === null ? "-" : item.salary + " $"}
-                        </h5>
-                      </div>
-                      <div>
+                        <div>
+                          <h5>
+                            {item.salary === null ? "-" : item.salary + " $"}
+                          </h5>
+                        </div>
+
                         <div>
                           <span className="badge bg-primary rounded-pill">
                             {item.location}

@@ -5,6 +5,8 @@ import { StyledLoginPage, LoginCardLayout } from "./styleLoginCard";
 import "./loginPageStylesCSS.css";
 
 export const LoginPage = ({ setIsAdminOrNotCallback }) => {
+  const [isLoginloadButtonSpinnerEnabled, setIsLoginloadButtonSpinnerEnabled] =
+    useState(false);
   const navigate = useNavigate();
   const handleClick = () => navigate(`/welcome`);
 
@@ -17,12 +19,24 @@ export const LoginPage = ({ setIsAdminOrNotCallback }) => {
   const [password, setPassword] = useState("");
 
   const fieldValidationRegex = {
-    password: /^[-\d\w@$]{5,20}$/i,
+    password: /^[-\d\w@$]{4,20}$/i,
     email: /^([a-zA-Z\d\.-]+)@([a-zA-Z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
   };
 
   const validate = (field, regex) => {
     return regex.test(field);
+  };
+
+  const loginButtonLoadSpinner = () => {
+    return (
+      <button class="btn btn-primary" type="button" disabled>
+        <span
+          class="spinner-border spinner-border-sm"
+          aria-hidden="true"
+        ></span>
+        <span role="status">Loading...</span>
+      </button>
+    );
   };
 
   const handleEmailChange = (e) => {
@@ -50,6 +64,7 @@ export const LoginPage = ({ setIsAdminOrNotCallback }) => {
   }, [accountNotFoundMessage]);
 
   const handleSubmit = (e) => {
+    setIsLoginloadButtonSpinnerEnabled(true);
     e.preventDefault();
 
     if (emailValid && passwordValid) {
@@ -77,7 +92,7 @@ export const LoginPage = ({ setIsAdminOrNotCallback }) => {
           }
         })
         .then((data) => {
-          setIsAdminOrNotCallback(data);
+          localStorage.setItem("accessToken", data.token);
           handleClick();
         })
         .catch((error) => {
@@ -160,13 +175,17 @@ export const LoginPage = ({ setIsAdminOrNotCallback }) => {
 
             <a href="register">Don't have an Account? Register Here</a>
             <div className="col-12 pt-4">
-              <button
-                className="btn btn-primary"
-                type="submit"
-                style={{ width: "35%" }}
-              >
-                Log in
-              </button>
+              {isLoginloadButtonSpinnerEnabled ? (
+                loginButtonLoadSpinner()
+              ) : (
+                <button
+                  className="btn btn-primary"
+                  type="submit"
+                  style={{ width: "35%" }}
+                >
+                  Log in
+                </button>
+              )}
             </div>
           </form>
         </LoginCardLayout>

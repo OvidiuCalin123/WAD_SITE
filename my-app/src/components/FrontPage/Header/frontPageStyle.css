@@ -1,0 +1,17 @@
+.user-header {
+  width: 4rem;
+  height: 3.5rem;
+  border-radius: 50%;
+}
+
+.mail-header {
+  width: 4rem;
+  height: 3.5rem;
+  border-radius: 50%;
+}
+
+.idk {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
