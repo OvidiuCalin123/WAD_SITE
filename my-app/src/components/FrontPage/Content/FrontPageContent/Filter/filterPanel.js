@@ -2,23 +2,11 @@ import "./stylesd.css";
 
 import { React } from "react";
 
-export const FilterPanel = ({
-  sortedData,
-  setSortedData,
-  filteredData,
-  setFilteredData,
-}) => {
+export const FilterPanel = ({ setSortedData, filteredData }) => {
   const handleRadioChange = (event) => {
-    // check on or off
-
-    console.log(filteredData);
-
-    const sortedFilteredData = filteredData.filter(
+    const sortedFilteredData = filteredData?.filter(
       (data) => data.jobType === event.target.defaultValue
     );
-
-    console.log(sortedFilteredData);
-
     setSortedData(sortedFilteredData);
   };
 
@@ -85,7 +73,7 @@ export const FilterPanel = ({
               Select Company
             </button>
             <ul class="dropdown-menu">
-              {filteredData.map((jobPost) => (
+              {filteredData?.map((jobPost) => (
                 <li>
                   <a
                     class="dropdown-item"
